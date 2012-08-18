@@ -7,8 +7,8 @@ Automatically backup your data from different web apps.
 * [Pocket](http://getpocket.com)
 * [Instapaper](http://instapaper.com)
 
-## How to Use It
-You only have to set up a cron job.
+## How to Use
+Enter credentials for all services you want to use and set up a cron job to run the script automatically.
 
 E.g. `* 20 * * * sh /Users/Name/webbackups.sh`
 
