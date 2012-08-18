@@ -11,7 +11,7 @@
 date=`date +%Y%m%d`
 backup_dir="$HOME/"
 # remove backup files older than
-rm_days=7
+keep_days=7
 
 # Pinboard.in Config
 # ----------------------------- #
@@ -49,9 +49,9 @@ if [[ -f $pb_cookies ]]; then
     rm $pb_cookies;
 fi
 
-# Remove backup files older than 7 days
+# Remove backup files older than X days
 find "$backup_dir" -name "*_pinboard-bookmarks.$pb_format.bz2" -type f -mtime \
-    +$rm_days -maxdepth 1 -print0 | xargs -0I{} rm {}
+    +$keep_days -maxdepth 1 -print0 | xargs -0I{} rm {}
 
 printf "Done.\n"
 
@@ -64,9 +64,9 @@ curl -s \
     "https://readitlaterlist.com/v2/get?username=$rl_username&password=$rl_password&apikey=$rl_apikey" | bzip2 -c > \
     "$backup_dir"/"$date"_pocket-list.bz2
 
-# Remove backup files older than 7 days
+# Remove backup files older than X days
 find "$backup_dir" -name "*_pocket-list.bz2" -type f -mtime \
-    +$rm_days -maxdepth 1 -print0 | xargs -0I{} rm {}
+    +$keep_days -maxdepth 1 -print0 | xargs -0I{} rm {}
 
 printf "Done.\n"
 
@@ -89,8 +89,8 @@ if [[ -f $ip_cookies ]]; then
     rm $ip_cookies;
 fi
 
-# Remove Instapaper backup files older than 14 days
+# Remove Instapaper backup files older than X days
 find "$backup_dir" -name '*_instapaper-links.html.bz2' -type f \
-    -mtime +$rm_days -maxdepth 1 -print0 | xargs -0I{} rm {}
+    -mtime +$keep_days -maxdepth 1 -print0 | xargs -0I{} rm {}
 
 printf "Done.\n"
