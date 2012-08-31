@@ -10,7 +10,7 @@ Automatically backup your data from different web apps.
 ## How to Use
 Enter credentials for all services you want to use and set up a cron job to run the script automatically.
 
-E.g. `* 20 * * * sh /Users/Name/webbackups.sh`
+E.g. `0 21 * * * sh /Users/Name/webbackups.sh`
 
 ## Credits
 Mostly adopted from [@chrispoole](https://twitter.com/chrispoole)'s [brainpower](http://chrispoole.com/article/pinboard-backup/).
