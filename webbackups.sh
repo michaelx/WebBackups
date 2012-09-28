@@ -1,7 +1,7 @@
 #!/bin/bash -
 
 # ------------------------------------------------------------------------- #
-# WebBackups V. 1.0
+# WebBackups V. 1.1
 # by @michael_xander > http://michaelxander.com
 # mostly adopted from: http://chrispoole.com/article/pinboard-backup/
 # ------------------------------------------------------------------------- #
@@ -130,12 +130,12 @@ if [[ ${imdb_lists[0]} != "enter url" ]]; then
     done 
 
     # Compress lists as imdb_lists.tar and delete every single imdb-csv file
-    tar -cvjf "$date"_imdb_lists.tar imdb_list_*.csv
+    tar -cvjf "$date"_imdb_lists.tar.bz2 imdb_list_*.csv > /dev/null 2>&1
     find . -type f -name "imdb_list_*" | xargs rm
-    find . -type f -name "*imdb_lists.tar" -print0 | xargs -0I{} mv {} $backup_dir
+    find . -type f -name "*imdb_lists.tar.bz2" -print0 | xargs -0I{} mv {} $backup_dir
 
     # Remove backup files older than X days
-    find "$backup_dir" -name "*_imdb-lists.tar" -type f -mtime \
+    find "$backup_dir" -name "*_imdb-lists.tar.bz2" -type f -mtime \
         +$keep_days -maxdepth 1 -print0 | xargs -0I{} rm {}
 
     printf "Done.\n"
