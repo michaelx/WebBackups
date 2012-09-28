@@ -33,6 +33,17 @@ ip_password='enter pw'
 ip_apikey='enter api key'
 ip_cookies='instapaper-cookies.txt'
 
+# IMDb.com Config
+# ----------------------------- #
+# add the urls from all lists you want to backup
+# via http://www.imdb.com/profile/lists
+# e.g. http://www.imdb.com/list/export?list_id=watchlist&author_id=<your-user-id>
+# only public lists are currently supported
+imdb_lists=(
+    'enter url' 
+    'enter url'
+    );
+
 
 # Pinboard.in Backup
 # ----------------------------- #
@@ -99,10 +110,35 @@ if [[ $ip_password != "enter pw" ]]; then
     fi
 
     # Remove Instapaper backup files older than X days
-    find "$backup_dir" -name '*_instapaper-links.html.bz2' -type f \
+    find "$backup_dir" -name "*_instapaper-links.html.bz2" -type f \
         -mtime +$keep_days -maxdepth 1 -print0 | xargs -0I{} rm {}
 
     printf "Done.\n"
 else
     printf "Instapaper backup isn't configured.\n"
+fi
+
+
+# IMDb.com Backup
+# ----------------------------- #
+if [[ ${imdb_lists[0]} != "enter url" ]]; then
+    printf "Backing up IMDb lists... "
+
+    for list in "${imdb_lists[@]}"; do
+        let i++
+        curl -s $list > imdb_list_$i.csv
+    done 
+
+    # Compress lists as imdb_lists.tar and delete every single imdb-csv file
+    tar -cvjf "$date"_imdb_lists.tar imdb_list_*.csv
+    find . -type f -name "imdb_list_*" | xargs rm
+    find . -type f -name "*imdb_lists.tar" -print0 | xargs -0I{} mv {} $backup_dir
+
+    # Remove backup files older than X days
+    find "$backup_dir" -name "*_imdb-lists.tar" -type f -mtime \
+        +$keep_days -maxdepth 1 -print0 | xargs -0I{} rm {}
+
+    printf "Done.\n"
+else
+    printf "IMDb backup isn't configured.\n"
 fi

@@ -6,6 +6,7 @@ Automatically backup your data from different web apps.
 * [Pinboard.in](http://pinboard.in)
 * [Pocket](http://getpocket.com)
 * [Instapaper](http://instapaper.com)
+* [IMDb](http://imdb.com)
 
 ## How to Use
 Enter credentials for all services you want to use and set up a cron job to run the script automatically.
