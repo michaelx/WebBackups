@@ -129,13 +129,13 @@ if [[ ${imdb_lists[0]} != "enter url" ]]; then
         curl -s $list > imdb_list_$i.csv
     done 
 
-    # Compress lists as imdb_lists.tar and delete every single imdb-csv file
+    # Compress, move and clean up
     tar -cvjf "$date"_imdb_lists.tar.bz2 imdb_list_*.csv > /dev/null 2>&1
     find . -type f -name "imdb_list_*" | xargs rm
     find . -type f -name "*imdb_lists.tar.bz2" -print0 | xargs -0I{} mv {} $backup_dir
 
     # Remove backup files older than X days
-    find "$backup_dir" -name "*_imdb-lists.tar.bz2" -type f -mtime \
+    find "$backup_dir" -name "*_imdb_lists.tar.bz2" -type f -mtime \
         +$keep_days -maxdepth 1 -print0 | xargs -0I{} rm {}
 
     printf "Done.\n"
